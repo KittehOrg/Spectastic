@@ -1,0 +1,16 @@
+language: java
+jdk:
+- oraclejdk8
+cache:
+  directories:
+    - $HOME/.m2
+notifications:
+  email: false
+deploy:
+  provider: releases
+  api_key:
+    secure: nudUN1RxvCJCHkDliT7gzMIx83OipKEKsL3JwB+g0Jg2N2H61GquQbJKGIoHly7sx+srPTCy6w6nYQILWr/SEmLXDXVJr5LJbIBvzo/RqyICTfdSKr6uttA/kaaPZsGrNV5hnkwpztRhXrb/XWXSPZRIPsdcfZ2vt9JFQ62KusG2arrte3di8T+dIZwTB1JAIKIEufe1QByNAG7XbKxLXV4GMGPJPVZRSA4ZY9E2Sy2cIpRIOCfzqS+WH15aMIIlyX/UTAekmB8n2zaeDi2eTQEZhoaS6zlzgkFqVH+wWCWPFmFRmsgwcDtQf5x3r2FeiK8zI17l5d51sLvLcRNd2GaJWuawDozqE40QHprMwV4Gpf0ucu3mKqnQQPRG3Y+GgwnLMSU5K/bBcfils69SY4eiWHm6rqWIU0ibeELJVz5ZPizVrjihhfOX2CP1siAzJdAamMwXNHU5KEBBwA+vzLd7cuTGTwDI2hCXYTcxB3s8OBjrSSUILbCIjj5Dq83RRfTuH8rT6Oz6WMMPeiJZqLHboRJJBzeTdfcJP+1P2tac/znMFHEy7+Gib38xekxkwFcMS979xIpRMgTxY6A+FJ5KODkqE6nwkHYzYtcK1/Z2KdJEgmxp/RdUcSEP/NEIDK6eH7sKic7ug5EEdjBC61jxyUfLTKn/9l23v80GLaw=
+  file: target/spectastic.jar
+  skip-cleanup: true
+  on:
+    tags: true
