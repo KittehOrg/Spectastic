@@ -48,7 +48,7 @@ import java.util.Optional;
 /**
  * Spectate in style.
  */
-@Plugin(id = "org.kitteh.spectastic", name = "Spectastic", version = "1.0.0-SNAPSHOT")
+@Plugin(id = "org.kitteh.spectastic", name = "Spectastic", version = "1.0.0")
 public class Spectastic {
     public static final String PERMISSION_SPEC = "spectastic.spec";
     public static final Key<Value<String>> PAST_GAMEMODE = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastGameMode"));
