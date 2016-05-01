@@ -24,6 +24,9 @@
 package org.kitteh.spectastic;
 
 import com.google.inject.Inject;
+import org.kitteh.spectastic.data.gamemode.ImmutablePastGameModeData;
+import org.kitteh.spectastic.data.gamemode.PastGameModeData;
+import org.kitteh.spectastic.data.gamemode.PastGameModeDataManipulatorBuilder;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.spec.CommandSpec;

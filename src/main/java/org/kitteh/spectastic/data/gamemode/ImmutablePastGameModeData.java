@@ -21,74 +21,49 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.kitteh.spectastic;
+package org.kitteh.spectastic.data.gamemode;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import org.kitteh.spectastic.Spectastic;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataHolder;
-import org.spongepowered.api.data.manipulator.mutable.common.AbstractData;
-import org.spongepowered.api.data.merge.MergeFunction;
-import org.spongepowered.api.data.value.mutable.Value;
+import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
+import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
 import javax.annotation.Nonnull;
-import java.util.Optional;
 
-public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePastGameModeData> {
-    private String pastGameMode;
+public class ImmutablePastGameModeData extends AbstractImmutableData<ImmutablePastGameModeData, PastGameModeData> {
+    private final String pastGameMode;
 
-    public PastGameModeData() {
+    public ImmutablePastGameModeData() {
         this(Spectastic.FALLBACK);
     }
 
-    public PastGameModeData(String pastGameMode) {
+    public ImmutablePastGameModeData(String pastGameMode) {
         this.pastGameMode = pastGameMode;
-        this.registerGettersAndSetters();
-    }
-
-    @Nonnull
-    public Value<String> pastGameMode() {
-        return Sponge.getRegistry().getValueFactory().createValue(Spectastic.PAST_GAMEMODE, Spectastic.FALLBACK, this.pastGameMode);
+        this.registerGetters();
     }
 
     @Override
-    protected void registerGettersAndSetters() {
+    protected void registerGetters() {
         this.registerFieldGetter(Spectastic.PAST_GAMEMODE, () -> this.pastGameMode);
-        this.registerFieldSetter(Spectastic.PAST_GAMEMODE, value -> this.pastGameMode = Preconditions.checkNotNull(value));
-        this.registerKeyValue(Spectastic.PAST_GAMEMODE, this::pastGameMode);
+        registerKeyValue(Spectastic.PAST_GAMEMODE, this::pastGameMode);
+    }
+
+    @Nonnull
+    public ImmutableValue<String> pastGameMode() {
+        return Sponge.getRegistry().getValueFactory().createValue(Spectastic.PAST_GAMEMODE, Spectastic.FALLBACK, this.pastGameMode).asImmutable();
     }
 
     @Nonnull
     @Override
-    public Optional<PastGameModeData> fill(@Nonnull DataHolder dataHolder, @Nonnull MergeFunction overlap) {
-        return Optional.empty(); // YOLO
-    }
-
-    @Nonnull
-    @Override
-    public Optional<PastGameModeData> from(@Nonnull DataContainer container) {
-        if (!container.contains(Spectastic.PAST_GAMEMODE.getQuery())) {
-            return Optional.empty();
-        }
-        this.pastGameMode = container.getString(Spectastic.PAST_GAMEMODE.getQuery()).get();
-        return Optional.of(this);
-    }
-
-    @Nonnull
-    @Override
-    public PastGameModeData copy() {
+    public PastGameModeData asMutable() {
         return new PastGameModeData(this.pastGameMode);
     }
 
-    @Nonnull
     @Override
-    public ImmutablePastGameModeData asImmutable() {
-        return new ImmutablePastGameModeData(this.pastGameMode);
-    }
-
-    @Override
-    public int compareTo(@Nonnull PastGameModeData o) {
+    public int compareTo(@Nonnull ImmutablePastGameModeData o) {
         return this.pastGameMode.compareTo(o.pastGameMode);
     }
 
@@ -100,7 +75,7 @@ public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePa
     @Nonnull
     @Override
     public DataContainer toContainer() {
-        return super.toContainer().set(Spectastic.PAST_GAMEMODE, this.pastGameMode);
+        return new MemoryDataContainer().set(Spectastic.PAST_GAMEMODE, this.pastGameMode);
     }
 
     @Nonnull

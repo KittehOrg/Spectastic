@@ -23,6 +23,7 @@
  */
 package org.kitteh.spectastic;
 
+import org.kitteh.spectastic.data.gamemode.PastGameModeData;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
