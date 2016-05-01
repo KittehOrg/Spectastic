@@ -24,6 +24,7 @@
 package org.kitteh.spectastic;
 
 import org.kitteh.spectastic.data.gamemode.PastGameModeData;
+import org.kitteh.spectastic.data.location.PastLocationData;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -36,6 +37,8 @@ import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -58,12 +61,17 @@ class SpecCommand implements CommandExecutor {
         if (pastGameMode.isPresent()) {
             newGameMode = Sponge.getRegistry().getType(GameMode.class, pastGameMode.get()).orElse(GameModes.SURVIVAL); // TODO fallback
             player.remove(Spectastic.PAST_GAMEMODE);
+            player.remove(Spectastic.PAST_LOCATION_WORLD);
+            player.remove(Spectastic.PAST_LOCATION_X);
+            player.remove(Spectastic.PAST_LOCATION_Y);
+            player.remove(Spectastic.PAST_LOCATION_Z);
         } else if (gameMode.equals(GameModes.SPECTATOR)) {
             player.sendMessage(Text.of(TextColors.AQUA, "You are manually spectating! Ask an administrator to set you back."));
             return CommandResult.success();
         } else {
-            System.out.println("Offering: \"" + gameMode.getId() + "\"");
-            System.out.println(player.offer(new PastGameModeData(gameMode.getId())));
+            player.offer(new PastGameModeData(gameMode.getId()));
+            Location<World> location = player.getLocation();
+            player.offer(new PastLocationData(location.getExtent().getName(), location.getX(), location.getY(), location.getZ()));
             newGameMode = GameModes.SPECTATOR;
         }
         player.offer(Keys.GAME_MODE, newGameMode);
