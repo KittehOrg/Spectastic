@@ -60,7 +60,7 @@ public class Spectastic {
     public static final Key<Value<String>> PAST_GAMEMODE = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastGameMode"));
     public static final Key<Value<String>> PAST_LOCATION_WORLD = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastLocationWorld"));
     public static final Key<Value<Double>> PAST_LOCATION_X = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationX"));
-    public static final Key<Value<Double>> PAST_LOCATION_Y = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationU"));
+    public static final Key<Value<Double>> PAST_LOCATION_Y = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationY"));
     public static final Key<Value<Double>> PAST_LOCATION_Z = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationZ"));
     public static final String FALLBACK = "survival"; // TODO fallback
 
