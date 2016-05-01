@@ -49,8 +49,8 @@ public class PastGameModeDataManipulatorBuilder implements DataManipulatorBuilde
     @Override
     public Optional<PastGameModeData> build(@Nonnull DataView container) throws InvalidDataException {
         // TODO check content version once bumped
-        if (container.contains(Spectastic.PAST_GAMEMODE)) {
-            return Optional.of(new PastGameModeData(container.getString(Spectastic.PAST_GAMEMODE.getQuery()).get()));
+        if (container.contains(Spectastic.PAST_GAME_MODE)) {
+            return Optional.of(new PastGameModeData(container.getString(Spectastic.PAST_GAME_MODE.getQuery()).get()));
         }
         return Optional.empty();
     }

@@ -57,12 +57,11 @@ import java.util.Optional;
 @Plugin(id = "spectastic", name = "Spectastic", version = "1.1.0-SNAPSHOT")
 public class Spectastic {
     public static final String PERMISSION_SPEC = "spectastic.spec";
-    public static final Key<Value<String>> PAST_GAMEMODE = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastGameMode"));
+    public static final Key<Value<String>> PAST_GAME_MODE = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastGameMode"));
     public static final Key<Value<String>> PAST_LOCATION_WORLD = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastLocationWorld"));
     public static final Key<Value<Double>> PAST_LOCATION_X = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationX"));
     public static final Key<Value<Double>> PAST_LOCATION_Y = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationY"));
     public static final Key<Value<Double>> PAST_LOCATION_Z = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationZ"));
-    public static final String FALLBACK = "survival"; // TODO fallback
 
     @Inject
     private Game game;
@@ -82,11 +81,11 @@ public class Spectastic {
     @Listener
     public void playerJoin(ClientConnectionEvent.Join event) {
         Player player = event.getTargetEntity();
-        Optional<String> pastGameMode = player.get(Spectastic.PAST_GAMEMODE);
+        Optional<String> pastGameMode = player.get(Spectastic.PAST_GAME_MODE);
         if (!player.hasPermission(PERMISSION_SPEC) && pastGameMode.isPresent()) {
             GameMode newGameMode = Sponge.getRegistry().getType(GameMode.class, pastGameMode.get()).orElse(GameModes.SURVIVAL); // TODO fallback
             player.offer(Keys.GAME_MODE, newGameMode);
-            player.remove(Spectastic.PAST_GAMEMODE);
+            player.remove(Spectastic.PAST_GAME_MODE);
             player.sendMessage(Text.of(TextColors.AQUA, "Having lost permission to /spectate, you are now in " + newGameMode.getName()));
         }
     }

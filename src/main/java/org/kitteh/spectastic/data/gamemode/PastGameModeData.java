@@ -37,10 +37,12 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePastGameModeData> {
+    public static final String FALLBACK_GAME_MODE = "world";
+
     private String pastGameMode;
 
     public PastGameModeData() {
-        this(Spectastic.FALLBACK);
+        this(FALLBACK_GAME_MODE);
     }
 
     public PastGameModeData(String pastGameMode) {
@@ -50,14 +52,14 @@ public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePa
 
     @Nonnull
     public Value<String> pastGameMode() {
-        return Sponge.getRegistry().getValueFactory().createValue(Spectastic.PAST_GAMEMODE, Spectastic.FALLBACK, this.pastGameMode);
+        return Sponge.getRegistry().getValueFactory().createValue(Spectastic.PAST_GAME_MODE, FALLBACK_GAME_MODE, this.pastGameMode);
     }
 
     @Override
     protected void registerGettersAndSetters() {
-        this.registerFieldGetter(Spectastic.PAST_GAMEMODE, () -> this.pastGameMode);
-        this.registerFieldSetter(Spectastic.PAST_GAMEMODE, value -> this.pastGameMode = Preconditions.checkNotNull(value));
-        this.registerKeyValue(Spectastic.PAST_GAMEMODE, this::pastGameMode);
+        this.registerFieldGetter(Spectastic.PAST_GAME_MODE, () -> this.pastGameMode);
+        this.registerFieldSetter(Spectastic.PAST_GAME_MODE, value -> this.pastGameMode = Preconditions.checkNotNull(value));
+        this.registerKeyValue(Spectastic.PAST_GAME_MODE, this::pastGameMode);
     }
 
     @Nonnull
@@ -69,10 +71,10 @@ public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePa
     @Nonnull
     @Override
     public Optional<PastGameModeData> from(@Nonnull DataContainer container) {
-        if (!container.contains(Spectastic.PAST_GAMEMODE.getQuery())) {
+        if (!container.contains(Spectastic.PAST_GAME_MODE.getQuery())) {
             return Optional.empty();
         }
-        this.pastGameMode = container.getString(Spectastic.PAST_GAMEMODE.getQuery()).get();
+        this.pastGameMode = container.getString(Spectastic.PAST_GAME_MODE.getQuery()).get();
         return Optional.of(this);
     }
 
@@ -101,7 +103,7 @@ public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePa
     @Nonnull
     @Override
     public DataContainer toContainer() {
-        return super.toContainer().set(Spectastic.PAST_GAMEMODE, this.pastGameMode);
+        return super.toContainer().set(Spectastic.PAST_GAME_MODE, this.pastGameMode);
     }
 
     @Nonnull

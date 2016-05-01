@@ -56,11 +56,11 @@ class SpecCommand implements CommandExecutor {
         }
         Player player = (Player) commandSource;
         GameMode gameMode = player.get(Keys.GAME_MODE).orElse(GameModes.SURVIVAL); // TODO fallback
-        Optional<String> pastGameMode = player.get(Spectastic.PAST_GAMEMODE);
+        Optional<String> pastGameMode = player.get(Spectastic.PAST_GAME_MODE);
         GameMode newGameMode;
         if (pastGameMode.isPresent()) {
             newGameMode = Sponge.getRegistry().getType(GameMode.class, pastGameMode.get()).orElse(GameModes.SURVIVAL); // TODO fallback
-            player.remove(Spectastic.PAST_GAMEMODE);
+            player.remove(Spectastic.PAST_GAME_MODE);
             player.remove(Spectastic.PAST_LOCATION_WORLD);
             player.remove(Spectastic.PAST_LOCATION_X);
             player.remove(Spectastic.PAST_LOCATION_Y);

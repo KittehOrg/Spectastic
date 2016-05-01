@@ -38,10 +38,10 @@ import java.util.Optional;
 
 public class PastLocationData extends AbstractData<PastLocationData, ImmutablePastLocationData> {
     // TODO improve
-    public static String FALLBACK_WORLD = "world";
-    public static double FALLBACK_X = 0;
-    public static double FALLBACK_Y = 70;
-    public static double FALLBACK_Z = 0;
+    public static final String FALLBACK_WORLD = "world";
+    public static final double FALLBACK_X = 0;
+    public static final double FALLBACK_Y = 70;
+    public static final double FALLBACK_Z = 0;
 
     public static int VERSION = 1;
 

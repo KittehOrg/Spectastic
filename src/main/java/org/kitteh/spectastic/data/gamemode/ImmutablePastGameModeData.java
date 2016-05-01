@@ -37,7 +37,7 @@ public class ImmutablePastGameModeData extends AbstractImmutableData<ImmutablePa
     private final String pastGameMode;
 
     public ImmutablePastGameModeData() {
-        this(Spectastic.FALLBACK);
+        this(PastGameModeData.FALLBACK_GAME_MODE);
     }
 
     public ImmutablePastGameModeData(String pastGameMode) {
@@ -47,13 +47,13 @@ public class ImmutablePastGameModeData extends AbstractImmutableData<ImmutablePa
 
     @Override
     protected void registerGetters() {
-        this.registerFieldGetter(Spectastic.PAST_GAMEMODE, () -> this.pastGameMode);
-        registerKeyValue(Spectastic.PAST_GAMEMODE, this::pastGameMode);
+        this.registerFieldGetter(Spectastic.PAST_GAME_MODE, () -> this.pastGameMode);
+        registerKeyValue(Spectastic.PAST_GAME_MODE, this::pastGameMode);
     }
 
     @Nonnull
     public ImmutableValue<String> pastGameMode() {
-        return Sponge.getRegistry().getValueFactory().createValue(Spectastic.PAST_GAMEMODE, Spectastic.FALLBACK, this.pastGameMode).asImmutable();
+        return Sponge.getRegistry().getValueFactory().createValue(Spectastic.PAST_GAME_MODE, PastGameModeData.FALLBACK_GAME_MODE, this.pastGameMode).asImmutable();
     }
 
     @Nonnull
@@ -75,7 +75,7 @@ public class ImmutablePastGameModeData extends AbstractImmutableData<ImmutablePa
     @Nonnull
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Spectastic.PAST_GAMEMODE, this.pastGameMode);
+        return new MemoryDataContainer().set(Spectastic.PAST_GAME_MODE, this.pastGameMode);
     }
 
     @Nonnull
