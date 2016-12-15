@@ -91,11 +91,6 @@ public class ImmutablePastLocationData extends AbstractImmutableData<ImmutablePa
     }
 
     @Override
-    public int compareTo(@Nonnull ImmutablePastLocationData o) {
-        return this.world.compareTo(o.world) + Double.compare(this.x, o.x) + Double.compare(this.y, o.y) + Double.compare(this.z, o.z);
-    }
-
-    @Override
     public int getContentVersion() {
         return PastLocationData.VERSION;
     }

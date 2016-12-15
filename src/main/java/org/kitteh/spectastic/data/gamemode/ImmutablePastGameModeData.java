@@ -63,11 +63,6 @@ public class ImmutablePastGameModeData extends AbstractImmutableData<ImmutablePa
     }
 
     @Override
-    public int compareTo(@Nonnull ImmutablePastGameModeData o) {
-        return this.pastGameMode.compareTo(o.pastGameMode);
-    }
-
-    @Override
     public int getContentVersion() {
         return 1;
     }

@@ -23,6 +23,7 @@
  */
 package org.kitteh.spectastic;
 
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import org.kitteh.spectastic.data.gamemode.ImmutablePastGameModeData;
 import org.kitteh.spectastic.data.gamemode.PastGameModeData;
@@ -57,11 +58,11 @@ import java.util.Optional;
 @Plugin(id = "spectastic", name = "Spectastic", version = "1.1.0-SNAPSHOT")
 public class Spectastic {
     public static final String PERMISSION_SPEC = "spectastic.spec";
-    public static final Key<Value<String>> PAST_GAME_MODE = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastGameMode"));
-    public static final Key<Value<String>> PAST_LOCATION_WORLD = KeyFactory.makeSingleKey(String.class, Value.class, DataQuery.of("PastLocationWorld"));
-    public static final Key<Value<Double>> PAST_LOCATION_X = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationX"));
-    public static final Key<Value<Double>> PAST_LOCATION_Y = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationY"));
-    public static final Key<Value<Double>> PAST_LOCATION_Z = KeyFactory.makeSingleKey(Double.class, Value.class, DataQuery.of("PastLocationZ"));
+    public static final Key<Value<String>> PAST_GAME_MODE = KeyFactory.makeSingleKey(TypeToken.of(String.class), new TypeToken<Value<String>>(){}, DataQuery.of("PastGameMode"), "spectastic:past_gamemode", "Spectastic: Past game mode");
+    public static final Key<Value<String>> PAST_LOCATION_WORLD = KeyFactory.makeSingleKey(TypeToken.of(String.class), new TypeToken<Value<String>>(){}, DataQuery.of("PastLocationWorld"), "spectastic:past_world", "Spectastic: Past world");
+    public static final Key<Value<Double>> PAST_LOCATION_X = KeyFactory.makeSingleKey(TypeToken.of(Double.class), new TypeToken<Value<Double>>(){}, DataQuery.of("PastLocationX"), "spectastic:past_x", "Spectastic: Past x");
+    public static final Key<Value<Double>> PAST_LOCATION_Y = KeyFactory.makeSingleKey(TypeToken.of(Double.class), new TypeToken<Value<Double>>(){}, DataQuery.of("PastLocationY"), "spectastic:past_y", "Spectastic: Past y");
+    public static final Key<Value<Double>> PAST_LOCATION_Z = KeyFactory.makeSingleKey(TypeToken.of(Double.class), new TypeToken<Value<Double>>(){}, DataQuery.of("PastLocationZ"), "spectastic:past_z", "Spectastic: Past z");
 
     @Inject
     private Game game;
