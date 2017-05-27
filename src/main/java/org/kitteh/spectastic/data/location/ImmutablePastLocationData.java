@@ -37,10 +37,6 @@ public class ImmutablePastLocationData extends AbstractImmutableData<ImmutablePa
     private final String world;
     private final double x, y, z;
 
-    public ImmutablePastLocationData() {
-        this(PastLocationData.FALLBACK_WORLD, PastLocationData.FALLBACK_X, PastLocationData.FALLBACK_Y, PastLocationData.FALLBACK_Z);
-    }
-
     public ImmutablePastLocationData(String world, double x, double y, double z) {
         this.world = world;
         this.x = x;

@@ -27,12 +27,19 @@ import org.kitteh.spectastic.Spectastic;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.manipulator.DataManipulatorBuilder;
+import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-public class PastGameModeDataManipulatorBuilder implements DataManipulatorBuilder<PastGameModeData, ImmutablePastGameModeData> {
+public class PastGameModeDataManipulatorBuilder extends AbstractDataBuilder<PastGameModeData> implements DataManipulatorBuilder<PastGameModeData, ImmutablePastGameModeData> {
+    public static final int VERSION = 1;
+
+    public PastGameModeDataManipulatorBuilder() {
+        super(PastGameModeData.class, VERSION);
+    }
+
     @Nonnull
     @Override
     public PastGameModeData create() {
@@ -42,16 +49,11 @@ public class PastGameModeDataManipulatorBuilder implements DataManipulatorBuilde
     @Nonnull
     @Override
     public Optional<PastGameModeData> createFrom(@Nonnull DataHolder dataHolder) {
-        return Optional.of(dataHolder.get(PastGameModeData.class).orElse(new PastGameModeData()));
+        return Optional.of(dataHolder.get(PastGameModeData.class).orElse(this.create()));
     }
 
-    @Nonnull
     @Override
-    public Optional<PastGameModeData> build(@Nonnull DataView container) throws InvalidDataException {
-        // TODO check content version once bumped
-        if (container.contains(Spectastic.PAST_GAME_MODE)) {
-            return Optional.of(new PastGameModeData(container.getString(Spectastic.PAST_GAME_MODE.getQuery()).get()));
-        }
-        return Optional.empty();
+    protected Optional<PastGameModeData> buildContent(@Nonnull DataView container) throws InvalidDataException {
+        return container.getString(Spectastic.PAST_GAME_MODE.getQuery()).map(PastGameModeData::new);
     }
 }
