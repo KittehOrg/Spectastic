@@ -23,11 +23,10 @@
  */
 package org.kitteh.spectastic.data.location;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import org.kitteh.spectastic.Spectastic;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
@@ -94,12 +93,12 @@ public class ImmutablePastLocationData extends AbstractImmutableData<ImmutablePa
     @Nonnull
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Spectastic.PAST_LOCATION_WORLD, this.world).set(Spectastic.PAST_LOCATION_X, this.x).set(Spectastic.PAST_LOCATION_Y, this.y).set(Spectastic.PAST_LOCATION_Z, this.z);
+        return DataContainer.createNew().set(Spectastic.PAST_LOCATION_WORLD, this.world).set(Spectastic.PAST_LOCATION_X, this.x).set(Spectastic.PAST_LOCATION_Y, this.y).set(Spectastic.PAST_LOCATION_Z, this.z);
     }
 
     @Nonnull
     @Override
     public String toString() {
-        return Objects.toStringHelper(this).add("world", this.world).add("x", this.x).add("y", this.y).add("z", this.z).toString();
+        return MoreObjects.toStringHelper(this).add("world", this.world).add("x", this.x).add("y", this.y).add("z", this.z).toString();
     }
 }

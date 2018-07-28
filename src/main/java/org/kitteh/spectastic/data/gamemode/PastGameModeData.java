@@ -23,7 +23,7 @@
  */
 package org.kitteh.spectastic.data.gamemode;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import org.kitteh.spectastic.Spectastic;
 import org.spongepowered.api.Sponge;
@@ -104,6 +104,6 @@ public class PastGameModeData extends AbstractData<PastGameModeData, ImmutablePa
     @Nonnull
     @Override
     public String toString() {
-        return Objects.toStringHelper(this).add("pastGameMode", this.pastGameMode).toString();
+        return MoreObjects.toStringHelper(this).add("pastGameMode", this.pastGameMode).toString();
     }
 }

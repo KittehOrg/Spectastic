@@ -57,9 +57,22 @@ class SpecCommand implements CommandExecutor {
         Player player = (Player) commandSource;
         GameMode gameMode = player.get(Keys.GAME_MODE).orElse(GameModes.SURVIVAL); // TODO fallback
         Optional<String> pastGameMode = player.get(Spectastic.PAST_GAME_MODE);
+        Optional<String> pastWorld = player.get(Spectastic.PAST_LOCATION_WORLD);
+        Optional<Double> pastX = player.get(Spectastic.PAST_LOCATION_X);
+        Optional<Double> pastY = player.get(Spectastic.PAST_LOCATION_Y);
+        Optional<Double> pastZ = player.get(Spectastic.PAST_LOCATION_Z);
         GameMode newGameMode;
         if (pastGameMode.isPresent()) {
             newGameMode = Sponge.getRegistry().getType(GameMode.class, pastGameMode.get()).orElse(GameModes.SURVIVAL); // TODO fallback
+            if (pastWorld.isPresent() && pastX.isPresent() && pastY.isPresent() && pastZ.isPresent()) {
+                Optional<World> world = Sponge.getGame().getServer().getWorld(pastWorld.get());
+                if (world.isPresent()) {
+                    double x = pastX.get();
+                    double y = pastY.get();
+                    double z = pastZ.get();
+                    player.setLocation(world.get().getLocation(x,y,z));
+                }
+            }
             player.remove(Spectastic.PAST_GAME_MODE);
             player.remove(Spectastic.PAST_LOCATION_WORLD);
             player.remove(Spectastic.PAST_LOCATION_X);

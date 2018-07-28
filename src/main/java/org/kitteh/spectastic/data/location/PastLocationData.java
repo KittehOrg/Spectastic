@@ -23,6 +23,7 @@
  */
 package org.kitteh.spectastic.data.location;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import org.kitteh.spectastic.Spectastic;
@@ -147,6 +148,6 @@ public class PastLocationData extends AbstractData<PastLocationData, ImmutablePa
     @Nonnull
     @Override
     public String toString() {
-        return Objects.toStringHelper(this).add("world", this.world).add("x", this.x).add("y", this.y).add("z", this.z).toString();
+        return MoreObjects.toStringHelper(this).add("world", this.world).add("x", this.x).add("y", this.y).add("z", this.z).toString();
     }
 }

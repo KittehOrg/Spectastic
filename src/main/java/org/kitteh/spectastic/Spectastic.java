@@ -35,18 +35,20 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.key.KeyFactory;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.value.mutable.Value;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -55,22 +57,80 @@ import java.util.Optional;
 /**
  * Spectate in style.
  */
-@Plugin(id = "spectastic", name = "Spectastic", version = "1.1.1")
+@Plugin(id = "spectastic", name = "Spectastic", version = "1.1.2-SNAPSHOT",
+        authors = {"mbaxter"}, description = "Toggle between your current gamemode and spectator"
+)
 public class Spectastic {
     public static final String PERMISSION_SPEC = "spectastic.spec";
-    public static final Key<Value<String>> PAST_GAME_MODE = KeyFactory.makeSingleKey(TypeToken.of(String.class), new TypeToken<Value<String>>(){}, DataQuery.of("PastGameMode"), "spectastic:past_gamemode", "Spectastic: Past game mode");
-    public static final Key<Value<String>> PAST_LOCATION_WORLD = KeyFactory.makeSingleKey(TypeToken.of(String.class), new TypeToken<Value<String>>(){}, DataQuery.of("PastLocationWorld"), "spectastic:past_world", "Spectastic: Past world");
-    public static final Key<Value<Double>> PAST_LOCATION_X = KeyFactory.makeSingleKey(TypeToken.of(Double.class), new TypeToken<Value<Double>>(){}, DataQuery.of("PastLocationX"), "spectastic:past_x", "Spectastic: Past x");
-    public static final Key<Value<Double>> PAST_LOCATION_Y = KeyFactory.makeSingleKey(TypeToken.of(Double.class), new TypeToken<Value<Double>>(){}, DataQuery.of("PastLocationY"), "spectastic:past_y", "Spectastic: Past y");
-    public static final Key<Value<Double>> PAST_LOCATION_Z = KeyFactory.makeSingleKey(TypeToken.of(Double.class), new TypeToken<Value<Double>>(){}, DataQuery.of("PastLocationZ"), "spectastic:past_z", "Spectastic: Past z");
+    public static Key<Value<String>> PAST_GAME_MODE;
+    public static Key<Value<String>> PAST_LOCATION_WORLD;
+    public static Key<Value<Double>> PAST_LOCATION_X;
+    public static Key<Value<Double>> PAST_LOCATION_Y;
+    public static Key<Value<Double>> PAST_LOCATION_Z;
 
     @Inject
     private Game game;
 
+    @Inject
+    private PluginContainer container;
+
     @Listener
-    public void onPreInit(GamePreInitializationEvent event) {
-        Sponge.getDataManager().register(PastGameModeData.class, ImmutablePastGameModeData.class, new PastGameModeDataManipulatorBuilder());
-        Sponge.getDataManager().register(PastLocationData.class, ImmutablePastLocationData.class, new PastLocationDataManipulatorBuilder());
+    public void onKeyRegistration(GameRegistryEvent.Register<Key<?>> event) {
+        PAST_GAME_MODE = Key.builder()
+                .type(new TypeToken<Value<String>>() {
+                })
+                .id("spectastic:past_gamemode")
+                .name("Spectastic: Past game mode")
+                .query(DataQuery.of("PastGameMode"))
+                .build();
+        PAST_LOCATION_WORLD = Key.builder()
+                .type(new TypeToken<Value<String>>() {
+                })
+                .id("past_world")
+                .name("Spectastic: Past world")
+                .query(DataQuery.of("PastLocationWorld"))
+                .build();
+        PAST_LOCATION_X = Key.builder()
+                .type(new TypeToken<Value<Double>>() {
+                })
+                .id("past_x")
+                .name("Spectastic: Past x")
+                .query(DataQuery.of("PastLocationX"))
+                .build();
+        PAST_LOCATION_Y = Key.builder()
+                .type(new TypeToken<Value<Double>>() {
+                })
+                .id("past_y")
+                .name("Spectastic: Past y")
+                .query(DataQuery.of("PastLocationY"))
+                .build();
+        PAST_LOCATION_Z = Key.builder()
+                .type(new TypeToken<Value<Double>>() {
+                })
+                .id("past_z")
+                .name("Spectastic: Past z")
+                .query(DataQuery.of("PastLocationZ"))
+                .build();
+    }
+
+    @Listener
+    public void onDataRegistration(GameRegistryEvent.Register<DataRegistration<?, ?>> event) {
+        DataRegistration.builder()
+                .dataName("PastGameMode")
+                .dataClass(PastGameModeData.class)
+                .immutableClass(ImmutablePastGameModeData.class)
+                .builder(new PastGameModeDataManipulatorBuilder())
+                .manipulatorId("PastGameMode")
+                .buildAndRegister(this.container);
+        DataRegistration.builder()
+                .dataName("PastLocation")
+                .dataClass(PastLocationData.class)
+                .immutableClass(ImmutablePastLocationData.class)
+                .builder(new PastLocationDataManipulatorBuilder())
+                .manipulatorId("PastLocation")
+                .buildAndRegister(this.container);
+        //Sponge.getDataManager().registerBuilder(PastGameModeData.class, new PastGameModeDataManipulatorBuilder());
+        //Sponge.getDataManager().registerBuilder(PastLocationData.class, new PastLocationDataManipulatorBuilder());
     }
 
     @Listener
