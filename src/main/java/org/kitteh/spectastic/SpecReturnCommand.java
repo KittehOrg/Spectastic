@@ -23,15 +23,12 @@
  */
 package org.kitteh.spectastic;
 
-import org.kitteh.spectastic.data.gamemode.PastGameModeData;
-import org.kitteh.spectastic.data.location.PastLocationData;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -44,10 +41,10 @@ import java.util.Optional;
 /**
  * Spectate!
  */
-class SpecCommand implements CommandExecutor {
+class SpecReturnCommand implements CommandExecutor {
     private final Spectastic spectastic;
 
-    SpecCommand(@Nonnull Spectastic spectastic) {
+    SpecReturnCommand(@Nonnull Spectastic spectastic) {
         this.spectastic = spectastic;
     }
 
@@ -59,25 +56,18 @@ class SpecCommand implements CommandExecutor {
             return CommandResult.empty();
         }
         Player player = (Player) commandSource;
-        GameMode currentGameMode = player.get(Keys.GAME_MODE).orElse(GameModes.SURVIVAL); // TODO fallback
-        Optional<GameMode> pastGameMode = this.spectastic.getGameMode(player);
 
-        GameMode futureGameMode;
-        if (pastGameMode.isPresent()) {
-            futureGameMode = pastGameMode.get();
-            this.spectastic.getLocation(player).ifPresent(player::setLocation);
-            this.spectastic.erasePast(player);
-        } else if (currentGameMode.equals(GameModes.SPECTATOR)) {
+        Optional<Location<World>> pastLocation = this.spectastic.getLocation(player);
+        if (pastLocation.isPresent()) {
+            player.setLocation(pastLocation.get());
+            player.sendMessage(Text.of(TextColors.AQUA, "Returned!"));
+        } else if (player.get(Keys.GAME_MODE).orElse(GameModes.SURVIVAL).equals(GameModes.SPECTATOR)) { // TODO fallback
             player.sendMessage(Text.of(TextColors.AQUA, "You are manually spectating! Ask an administrator to set you back."));
-            return CommandResult.success();
+        } else if (this.spectastic.getGameMode(player).isPresent()) {
+            player.sendMessage(Text.of(TextColors.AQUA, "Sorry, couldn't find past location data!"));
         } else {
-            player.offer(new PastGameModeData(currentGameMode.getId()));
-            Location<World> location = player.getLocation();
-            player.offer(new PastLocationData(location.getExtent().getName(), location.getX(), location.getY(), location.getZ()));
-            futureGameMode = GameModes.SPECTATOR;
+            player.sendMessage(Text.of(TextColors.AQUA, "You are not currently spectating!"));
         }
-        player.offer(Keys.GAME_MODE, futureGameMode);
-        player.sendMessage(Text.of(TextColors.AQUA, "You are now in " + futureGameMode.getName()));
         return CommandResult.success();
     }
 }
